@@ -17,7 +17,7 @@ import resend
 # Hardcoded configuration
 # 1. Get your API key from https://resend.com (It's free!)
 # 2. Recommended: Add RESEND_API_KEY to your Render/HuggingFace Environment Variables
-RESEND_API_KEY = os.getenv('RESEND_API_KEY', 're_XXXXXXXXXXXXXXXXXXXXXX') 
+RESEND_API_KEY = os.getenv('RESEND_API_KEY', 're_MXtTb1pM_PNbU8wNBPHu3QJdVY5GjSyrC') 
 resend.api_key = RESEND_API_KEY
 
 def send_confirmation_email(to_email, name, college, pass_link):
