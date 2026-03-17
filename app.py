@@ -15,8 +15,9 @@ CORS(app)
 import resend
 
 # Hardcoded configuration
-# Get your API key from https://resend.com (It's free!)
-RESEND_API_KEY = 're_XXXXXXXXXXXXXXXXXXXXXX' 
+# 1. Get your API key from https://resend.com (It's free!)
+# 2. Recommended: Add RESEND_API_KEY to your Render/HuggingFace Environment Variables
+RESEND_API_KEY = os.getenv('RESEND_API_KEY', 're_XXXXXXXXXXXXXXXXXXXXXX') 
 resend.api_key = RESEND_API_KEY
 
 def send_confirmation_email(to_email, name, college, pass_link):
