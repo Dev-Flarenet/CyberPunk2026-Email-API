@@ -12,11 +12,11 @@ app = Flask(__name__)
 # Allow CORS for the frontend domain (or all domains if specified)
 CORS(app)
 
-# Configuration from .env
-SMTP_SERVER = os.getenv('SMTP_SERVER', 'smtp.gmail.com')
-SMTP_PORT = int(os.getenv('SMTP_PORT', 587))
-SMTP_EMAIL = os.getenv('SMTP_EMAIL')
-SMTP_PASSWORD = os.getenv('SMTP_PASSWORD')
+# Hardcoded configuration (Be extremely careful not to push your password to a public repository!)
+SMTP_SERVER = 'smtp.gmail.com'
+SMTP_PORT = 587
+SMTP_EMAIL = 'bhuvispartiate@gmail.com'
+SMTP_PASSWORD = 'YOUR_APP_PASSWORD_HERE' # Replace this with your actual Google App Password
 
 def send_confirmation_email(to_email, name, college, pass_link):
     if not SMTP_EMAIL or not SMTP_PASSWORD:
