@@ -70,5 +70,6 @@ def handle_send_confirmation():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    # Default to port 5000 
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # Hugging Face Spaces expose port 7860
+    port = int(os.getenv('PORT', 7860))
+    app.run(host='0.0.0.0', port=port, debug=False)
