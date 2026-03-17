@@ -12,15 +12,16 @@ app = Flask(__name__)
 # Allow CORS for the frontend domain (or all domains if specified)
 CORS(app)
 
-# Hardcoded configuration (Be extremely careful not to push your password to a public repository!)
-SMTP_SERVER = 'smtp.gmail.com'
-SMTP_PORT = 465  # Switched to SSL port
-SMTP_EMAIL = 'bhuvispartiate@gmail.com'
-SMTP_PASSWORD = 'agyh veeo dvgv nysa' # Replace this with your actual Google App Password
+import resend
+
+# Hardcoded configuration
+# Get your API key from https://resend.com (It's free!)
+RESEND_API_KEY = 're_XXXXXXXXXXXXXXXXXXXXXX' 
+resend.api_key = RESEND_API_KEY
 
 def send_confirmation_email(to_email, name, college, pass_link):
-    if not SMTP_EMAIL or not SMTP_PASSWORD:
-        raise Exception("SMTP credentials are not configured on the server.")
+    if not RESEND_API_KEY or RESEND_API_KEY.startswith('re_XXX'):
+        raise Exception("Resend API Key is not configured correctly.")
 
     # Read the HTML template
     template_path = os.path.join(os.path.dirname(__file__), 'email_template.html')
@@ -32,20 +33,15 @@ def send_confirmation_email(to_email, name, college, pass_link):
     html_content = html_content.replace('{{COLLEGE}}', college)
     html_content = html_content.replace('{{PASS_LINK}}', pass_link)
 
-    # Set up the email message
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = "CyberPunk2026 - Registration Confirmed"
-    msg['From'] = f"CyberPunk2026 <{SMTP_EMAIL}>"
-    msg['To'] = to_email
+    # Send the email via Resend HTTP API (Not blocked by HF/Render)
+    params = {
+        "from": "CyberPunk2026 <onboarding@resend.dev>",
+        "to": [to_email],
+        "subject": "CyberPunk2026 - Registration Confirmed",
+        "html": html_content,
+    }
 
-    # Attach the HTML content
-    part = MIMEText(html_content, 'html')
-    msg.attach(part)
-
-    # Send the email using SMTP_SSL
-    with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
-        server.login(SMTP_EMAIL, SMTP_PASSWORD)
-        server.send_message(msg)
+    resend.Emails.send(params)
 
 @app.route('/send-confirmation', methods=['POST'])
 def handle_send_confirmation():
