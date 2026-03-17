@@ -16,7 +16,7 @@ CORS(app)
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 587
 SMTP_EMAIL = 'bhuvispartiate@gmail.com'
-SMTP_PASSWORD = 'YOUR_APP_PASSWORD_HERE' # Replace this with your actual Google App Password
+SMTP_PASSWORD = 'agyh veeo dvgv nysa' # Replace this with your actual Google App Password
 
 def send_confirmation_email(to_email, name, college, pass_link):
     if not SMTP_EMAIL or not SMTP_PASSWORD:
