@@ -66,8 +66,16 @@ def handle_send_confirmation():
         send_confirmation_email(email, name, college, pass_link)
         return jsonify({"success": True, "message": "Confirmation email sent successfully"}), 200
     except Exception as e:
-        print(f"Error sending email: {e}")
-        return jsonify({"error": str(e)}), 500
+        import traceback
+        error_details = traceback.format_exc()
+        print("====== EMAIL SEND ERROR ======")
+        print(error_details)
+        print("==============================")
+        return jsonify({
+            "error": "Failed to send email", 
+            "details": str(e),
+            "traceback": error_details
+        }), 500
 
 if __name__ == '__main__':
     # Hugging Face Spaces expose port 7860
