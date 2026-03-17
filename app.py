@@ -14,7 +14,7 @@ CORS(app)
 
 # Hardcoded configuration (Be extremely careful not to push your password to a public repository!)
 SMTP_SERVER = 'smtp.gmail.com'
-SMTP_PORT = 587
+SMTP_PORT = 465  # Switched to SSL port
 SMTP_EMAIL = 'bhuvispartiate@gmail.com'
 SMTP_PASSWORD = 'agyh veeo dvgv nysa' # Replace this with your actual Google App Password
 
@@ -42,10 +42,9 @@ def send_confirmation_email(to_email, name, college, pass_link):
     part = MIMEText(html_content, 'html')
     msg.attach(part)
 
-    # Send the email
-    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-        server.starttls()
-        server.login(SMTP_EMAIL or '', SMTP_PASSWORD or '')
+    # Send the email using SMTP_SSL
+    with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+        server.login(SMTP_EMAIL, SMTP_PASSWORD)
         server.send_message(msg)
 
 @app.route('/send-confirmation', methods=['POST'])
